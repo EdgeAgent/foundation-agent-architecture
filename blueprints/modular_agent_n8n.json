@@ -1,0 +1,94 @@
+{
+  "name": "Modular Foundation Agent Blueprint",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-trigger",
+        "options": {}
+      },
+      "name": "Perceptual Input (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "systemMessage": "You are the Cognitive Module (Prefrontal Cortex). Reflect on the observation, query memory, and generate a plan."
+        }
+      },
+      "name": "Cognitive Module (Reasoning)",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1,
+      "position": [350, 300]
+    },
+    {
+      "parameters": {
+        "operation": "retrieve",
+        "topK": 5
+      },
+      "name": "Memory Retrieval (Hippocampus)",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreRetriever",
+      "typeVersion": 1,
+      "position": [350, 150]
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are the Governance Gate. Verify the plan against Deontic Principles (Rules of Engagement) before execution."
+        }
+      },
+      "name": "Safety Gate (Governance)",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1,
+      "position": [600, 300]
+    },
+    {
+      "parameters": {
+        "resource": "api",
+        "operation": "call"
+      },
+      "name": "Action Module (Motor Cortex)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Perceptual Input (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "Cognitive Module (Reasoning)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cognitive Module (Reasoning)": {
+      "main": [
+        [
+          {
+            "node": "Safety Gate (Governance)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Safety Gate (Governance)": {
+      "main": [
+        [
+          {
+            "node": "Action Module (Motor Cortex)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

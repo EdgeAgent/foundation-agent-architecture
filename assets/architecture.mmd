@@ -1,0 +1,35 @@
+graph TD
+    subgraph "Perceptual Module (Sensory Cortices)"
+        A[Visual/Textual Input] --> B[Observation Encoder]
+        B --> C[World State Buffer]
+    end
+
+    subgraph "Cognitive Module (Prefrontal Cortex)"
+        C --> D[Reasoning Engine]
+        D --> E[Planning Unit]
+        E --> F[Decision Gate]
+    end
+
+    subgraph "Memory Module (Hippocampus & Neocortex)"
+        G[(Working Memory)] <--> D
+        H[(Episodic Memory)] <--> D
+        I[(Semantic Memory)] <--> D
+        J[(Importance-Based Decay)] --- H
+    end
+
+    subgraph "Action Module (Motor Cortex)"
+        F --> K[Tool Use / Actuation]
+        K --> L[Environment Feedback]
+        L --> A
+    end
+
+    subgraph "Governance & Safety"
+        M[Deontic Principles] --> F
+        N[Human-in-the-Loop] --> F
+    end
+
+    style D fill:#3b82f6,stroke:#1e40af,color:#fff
+    style G fill:#10b981,stroke:#065f46,color:#fff
+    style H fill:#10b981,stroke:#065f46,color:#fff
+    style I fill:#10b981,stroke:#065f46,color:#fff
+    style F fill:#ef4444,stroke:#991b1b,color:#fff
